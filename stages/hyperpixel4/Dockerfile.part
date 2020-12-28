@@ -1,0 +1,20 @@
+RUN pacman --noconfirm -S dtc python-setuptools
+
+RUN mkdir /opt/python-raspberry-gpio
+WORKDIR /opt/python-raspberry-gpio
+RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=python-raspberry-gpio > PKGBUILD
+RUN chown -R alarm:alarm .
+RUN sudo -u alarm makepkg
+RUN pacman -U *.pkg.tar.xz --noconfirm
+
+RUN mkdir /opt/python-adafruit-gpio
+WORKDIR /opt/python-adafruit-gpio
+RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=python-adafruit-gpio > PKGBUILD
+RUN chown -R alarm:alarm .
+RUN sudo -u alarm makepkg
+RUN pacman -U *.pkg.tar.xz --noconfirm
+
+RUN mkdir /opt/hyperpixel4
+RUN git clone https://github.com/pimoroni/hyperpixel4 -b pi3 /opt/hyperpixel4
+WORKDIR /opt/hyperpixel4
+RUN /bin/bash install.sh
