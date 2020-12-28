@@ -1,0 +1,3 @@
+RUN pacman --noconfirm -S docker 
+
+RUN systemctl enable docker
