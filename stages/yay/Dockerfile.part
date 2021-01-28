@@ -1,0 +1,7 @@
+RUN mkdir /opt/yay
+WORKDIR /opt/yay
+RUN pacman -S git go --noconfirm
+RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay > PKGBUILD
+RUN chown -R alarm:alarm .
+RUN sudo -u alarm makepkg
+RUN pacman -U *.pkg.tar.xz --noconfirm

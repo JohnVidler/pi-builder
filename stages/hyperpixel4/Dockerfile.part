@@ -1,15 +1,8 @@
-RUN pacman --noconfirm -S dtc python-setuptools
+RUN pacman --noconfirm -S dtc python-setuptools autoconf-archive help2man xorg-input xorg-server
 
-RUN mkdir /opt/python-raspberry-gpio
-WORKDIR /opt/python-raspberry-gpio
-RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=python-raspberry-gpio > PKGBUILD
-RUN chown -R alarm:alarm .
-RUN sudo -u alarm makepkg
-RUN pacman -U *.pkg.tar.xz --noconfirm
-
-RUN mkdir /opt/python-adafruit-gpio
-WORKDIR /opt/python-adafruit-gpio
-RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=python-adafruit-gpio > PKGBUILD
+RUN mkdir /opt/libgpiod
+WORKDIR /opt/libgpiod
+RUN curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=libgpiod > PKGBUILD
 RUN chown -R alarm:alarm .
 RUN sudo -u alarm makepkg
 RUN pacman -U *.pkg.tar.xz --noconfirm
