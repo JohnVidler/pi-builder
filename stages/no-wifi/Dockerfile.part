@@ -1,0 +1,3 @@
+RUN case "$BOARD" in \
+		rpi3|rpi4|zerow) echo "dtoverlay=disable-wifi" >> /boot/config.txt;; \
+	esac
