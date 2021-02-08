@@ -1,0 +1,9 @@
+
+# This is a hack to make the K3S script think we're on an actual, running instance, with systemd running
+RUN mkdir /run/systemd
+
+# Also a hack, as this command will _technically_ fail, we hide this with "; exit 0"
+RUN curl -sfL https://get.k3s.io | sh -; exit 0
+
+# Undo the hack... it's a /run directory so this should be safe.
+RUN rm -r /run/systemd

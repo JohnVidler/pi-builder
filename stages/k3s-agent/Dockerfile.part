@@ -1,0 +1,12 @@
+
+ARG K3S_TOKEN="K10735007e8c8f7d829d73258b9036bfa9552457b5a059a64fc09b4ee0f6e210f41::server:da3e6ad020c4338d2427ff27197e16fa"
+ARG K3S_URL="https://hermes.johnvidler.co.uk:6443"
+
+# This is a hack to make the K3S script think we're on an actual, running instance, with systemd running
+RUN mkdir /run/systemd
+
+# Also a hack, as this command will _technically_ fail, we hide this with "; exit 0"
+RUN curl -sfL https://get.k3s.io | K3S_URL=${K3S_URL} K3S_TOKEN=${K3S_TOKEN} sh -; exit 0
+
+# Undo the hack... it's a /run directory so this should be safe.
+RUN rm -r /run/systemd
