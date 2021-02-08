@@ -1,0 +1,5 @@
+
+RUN mkdir /etc/manage-pi.d
+
+COPY stages/manage-pi/manage-pi.sh /etc/profile.d/manage-pi.sh
+RUN chmod +x /etc/profile.d/manage-pi.sh
