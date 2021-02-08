@@ -54,10 +54,14 @@ RUN pacman --noconfirm -Syy \
                 rpi4) pacman --needed --noconfirm -S linux-raspberrypi4 linux-raspberrypi4-headers;; \
                 *) pacman --needed --noconfirm -S linux-armv7-headers;; \
             esac;; \
-        aarch64) pacman --needed --noconfirm -S linux-aarch64-headers;; \
+        aarch64) \
+			pacman --needed --noconfirm -S linux-aarch64-headers; \
+			sed -i 's/mmcblk0/mmcblk1/g' /etc/fstab;; \
         *) echo "Unknown architecture: $ARCH"; exit 1;; \
     esac \
 	&& (pacman --noconfirm -Sc || true)
+
+#RUN sed -i 's/mmcblk0/mmcblk1/g' /etc/fstab
 
 RUN echo 'RNGD_OPTS="-o /dev/random -r /dev/hwrng"' > /etc/conf.d/rngd \
 	&& systemctl disable haveged \
