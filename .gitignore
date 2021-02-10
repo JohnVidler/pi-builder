@@ -3,3 +3,4 @@
 /.build/
 /.builded.conf
 config.mk
+image.img
