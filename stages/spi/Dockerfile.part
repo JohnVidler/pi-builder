@@ -1,0 +1,2 @@
+
+RUN echo "dtparam=spi=on" >> /boot/config.txt
