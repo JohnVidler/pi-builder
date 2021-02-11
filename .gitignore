@@ -3,4 +3,5 @@
 /.build/
 /.builded.conf
 config.mk
+config.part
 image.img

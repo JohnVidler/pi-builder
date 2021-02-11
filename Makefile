@@ -263,6 +263,7 @@ _buildctx: _rpi_base_rootfs_tgz
 			-e 's|%QEMU_STATIC_GUEST_PATH%|$(_QEMU_STATIC_GUEST_PATH)|g ' \
 		$(_BUILD_DIR)/stages/__init__/Dockerfile.part
 	echo -n > $(_BUILD_DIR)/Dockerfile
+	cat config.part >> $(_BUILD_DIR)/Dockerfile
 	for stage in $(STAGES); do \
 		cat $(_BUILD_DIR)/stages/$$stage/Dockerfile.part >> $(_BUILD_DIR)/Dockerfile; \
 	done
