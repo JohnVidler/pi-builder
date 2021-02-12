@@ -1,0 +1,7 @@
+
+COPY stages/set-hostname/boot-set-hostname.sh      /usr/local/bin/boot-set-hostname.sh
+COPY stages/set-hostname/boot-set-hostname.service /etc/systemd/system/boot-set-hostname.service
+
+RUN chmod +x /usr/local/bin/boot-set-hostname.sh
+
+RUN systemctl enable boot-set-hostname.service

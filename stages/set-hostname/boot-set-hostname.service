@@ -1,0 +1,15 @@
+[Unit]
+Description=Sets the system hostname once on boot, if required
+
+Wants=network.target
+After=syslog.target network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/boot-set-hostname.sh
+Restart=on-failure
+RestartSec=60
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
