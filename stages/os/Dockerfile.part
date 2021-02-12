@@ -56,12 +56,25 @@ RUN pacman --noconfirm -Syy \
             esac;; \
         aarch64) \
 			pacman --needed --noconfirm -S linux-aarch64-headers; \
-			sed -i 's/mmcblk0/mmcblk1/g' /etc/fstab;; \
+			case "$BOARD" in \
+				rpi4) \
+					sed -i 's/mmcblk0/mmcblk1/g' /etc/fstab;; \
+			esac;; \
         *) echo "Unknown architecture: $ARCH"; exit 1;; \
     esac \
 	&& (pacman --noconfirm -Sc || true)
 
 #RUN sed -i 's/mmcblk0/mmcblk1/g' /etc/fstab
+
+# Fix the missing drivers for USB on aarch64
+RUN case "$ARCH" in \
+	aarch64) \
+		case "$BOARD" in \
+			rpi4) \
+				git clone --depth 1 https://github.com/raspberrypi/firmware.git /opt/firmware; \
+				cp -v /opt/firmware/boot/*.dtb /boot/;; \
+		esac;; \
+	esac
 
 RUN echo 'RNGD_OPTS="-o /dev/random -r /dev/hwrng"' > /etc/conf.d/rngd \
 	&& systemctl disable haveged \
