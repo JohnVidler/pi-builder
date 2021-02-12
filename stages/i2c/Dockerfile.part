@@ -1,4 +1,4 @@
 
-RUN pacman -S i2c-tools
+RUN pacman --needed --noconfirm -S i2c-tools
 
 RUN echo "i2c-dev" >> /etc/modules-load.d/raspberrypi.conf
