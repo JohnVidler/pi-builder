@@ -1,33 +1,29 @@
-ARG wg_pubkey
-ARG wg_privkey
-ARG wg_netkey
-ARG wg_ip
-ARG wg_allowedips
-ARG wg_endpoint
-ARG wg_name=wg0
 
-RUN pacman --noconfirm -S linux-aarch64-headers wireguard-dkms wireguard-tools
+ARG WG_NETWORK_IP
+ARG WG_LISTEN_PORT
+ARG WG_PRIVKEY
+ARG WG_PUBKEY
 
-RUN cat > /etc/systemd/network/99-${wg_name}.netdev <<EOF \
-[NetDev] \
-Name=${wg_name} \
-Kind=wireguard \
-Description=WireGuard tunnel ${wg_name} \
-\
-[WireGuard] \
-PrivateKey=${wg_privkey} \
-\
-[WireGuardPeer] \
-PublicKey=${wg_pubkey} \
-PresharedKey=${wg_netkey} \
-AllowedIPs=${wg_allowedips} \
-Endpoint=${wg_endpoint} \
-EOF
+ARG WG_PEER_PUBKEY
+ARG WG_PSK
+ARG WG_PEER_ALLOWED_IPS
+ARG WG_PEER_ENDPOINT
 
-RUN cat > /etc/systemd/network/99-${wg_name}.network <<EOF \
-[Match] \
-Name=wg0 \
+RUN pacman --noconfirm -S \
+    linux-aarch64-headers \
+    wireguard-dkms \
+    wireguard-tools \
 \
-[Network] \
-Address=${wg_ip} \
-EOF
+    && echo -e "\
+[Interface] \n\
+Address = ${WG_NETWORK_IP} \n\
+ListenPort = ${WG_LISTEN_PORT} \n\
+PrivateKey = ${WG_PRIVKEY} \n\
+\n\
+[Peer] \n\
+PublicKey = ${WG_PEER_PUBKEY} \n\
+PresharedKey = ${WG_PSK} \n\
+AllowedIPs = ${WG_PEER_ALLOWED_IPS} \n\
+Endpoint = ${WG_PEER_ENDPOINT}" > /etc/wireguard/wg0.conf \
+\
+    && systemctl enable wg-quick@wg0.service
