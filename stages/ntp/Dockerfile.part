@@ -1,0 +1,6 @@
+
+RUN pacman --noconfirm -S ntp \
+    && systemctl enable ntpd.service \
+    && mkdir /etc/systemd/system/ntpd.service.d
+
+COPY stages/ntp/override.conf /etc/systemd/system/ntpd.service.d/override.conf
